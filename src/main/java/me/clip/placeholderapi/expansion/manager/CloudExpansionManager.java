@@ -203,10 +203,10 @@ public final class CloudExpansionManager {
           // loop through what's left on the main thread
           plugin
               .getServer()
-              .getScheduler()
-              .runTask(
+              .getGlobalRegionScheduler()
+              .run(
                   plugin,
-                  () -> {
+                  (task) -> {
                     try {
                       for (Map.Entry<String, CloudExpansion> entry : values.entrySet()) {
                         String name = entry.getKey();

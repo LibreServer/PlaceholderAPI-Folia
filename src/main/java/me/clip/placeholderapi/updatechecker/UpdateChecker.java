@@ -55,10 +55,10 @@ public class UpdateChecker implements Listener {
   }
 
   public void fetch() {
-    Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+    Bukkit.getAsyncScheduler().runNow(plugin, (task) -> {
       try {
         HttpsURLConnection con = (HttpsURLConnection) new URL(
-            "https://api.spigotmc.org/legacy/update.php?resource=" + RESOURCE_ID).openConnection();
+                "https://api.spigotmc.org/legacy/update.php?resource=" + RESOURCE_ID).openConnection();
         con.setRequestMethod("GET");
         spigotVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
       } catch (Exception ex) {
@@ -76,11 +76,11 @@ public class UpdateChecker implements Listener {
         return;
       }
 
-      Bukkit.getScheduler().runTask(plugin, () -> {
+      Bukkit.getGlobalRegionScheduler().run(plugin, (task1) -> {
         plugin.getLogger()
-            .info("An update for PlaceholderAPI (v" + getSpigotVersion() + ") is available at:");
+                .info("An update for PlaceholderAPI (v" + getSpigotVersion() + ") is available at:");
         plugin.getLogger()
-            .info("https://www.spigotmc.org/resources/placeholderapi." + RESOURCE_ID + "/");
+                .info("https://www.spigotmc.org/resources/placeholderapi." + RESOURCE_ID + "/");
         Bukkit.getPluginManager().registerEvents(this, plugin);
       });
     });

@@ -174,7 +174,8 @@ public final class PlaceholderAPIPlugin extends JavaPlugin {
 
     HandlerList.unregisterAll(this);
 
-    Bukkit.getScheduler().cancelTasks(this);
+    Bukkit.getGlobalRegionScheduler().cancelTasks(this);
+    Bukkit.getAsyncScheduler().cancelTasks(this);
 
     adventure.close();
     adventure = null;
@@ -262,8 +263,8 @@ public final class PlaceholderAPIPlugin extends JavaPlugin {
       Class.forName("org.bukkit.event.server.ServerLoadEvent");
       new ServerLoadEventListener(this);
     } catch (final ClassNotFoundException ignored) {
-      Bukkit.getScheduler()
-          .runTaskLater(this, () -> getLocalExpansionManager().load(Bukkit.getConsoleSender()), 1);
+      Bukkit.getGlobalRegionScheduler()
+          .runDelayed(this, (task) -> getLocalExpansionManager().load(Bukkit.getConsoleSender()), 1);
     }
   }
 
